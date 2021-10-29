@@ -4,31 +4,36 @@ const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Body = Matter.Body;
 const Render = Matter.Render;
-const Constraint = Matter.Constraint;
-var bobObject1,bobObject2,bobObject3, bobObject4,bobObject5, roofObject
-var rope1,rope2,rope3, rope4,rope5;
+var dustbinObj,groundObject	
 var world;
+var paper1;
 
 
 function setup() {
-	createCanvas(800, 600);
+	createCanvas(1600, 700);
 	rectMode(CENTER);
 
 
 	engine = Engine.create();
 	world = engine.world;
+	
+	groundObject=new ground(width/2,670,width,20);
+	dustbinObj=new dustbin(1200,650);
 
-	roofObject=new roof(400,250,230,20);
-	bob1 = new bob(320,575,40)
-	bob2 = new bob(360,575,40)
-	
-	
-	rope1=new rope(bob1.body,roofObject.body,-80, 0)
-	rope2=new rope(bob2.body,roofObject.body,-40, 0)
-	
-	
+	paper1 = new Paper(150,650,70)
+
+	var render = Render.create({
+		element: document.body,
+		engine: engine,
+		options:{ 
+			width: 1600,
+			height: 700,
+			wireframes: false
+		}
+	})
+
 	Engine.run(engine);
-	
+	Render.run(render);
   
 }
 
@@ -36,20 +41,18 @@ function setup() {
 function draw() {
   rectMode(CENTER);
   background(230);
-  roofObject.display();
 
-  rope1.display();
-  rope2.display();
-
-  bob1.display();
-  bob2.display();
+	
+  groundObject.display();
+  dustbinObj.display();
+  paper1.display();
   
-  
- 
 }
 
+function keyPressed(){
 
-
-
-
-
+	if(keyCode === UP_ARROW){
+	Matter.Body.applyForce(paper1.body,paper1.body.position,{x:143, y: - 145});
+	}
+	
+}
